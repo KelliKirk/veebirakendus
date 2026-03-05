@@ -2,6 +2,7 @@ const Comment = require('../models/comment.js');
 
 const createComment = async (req, res) => {
   const data = new Comment({
+      articleId: req.body.articleId,
       date: new Date(),
       content: req.body.content
   })
@@ -16,7 +17,7 @@ const createComment = async (req, res) => {
 
 const getComments = async (req, res) => {
   try {
-    const data = await Comment.find();
+    const data = await Comment.find().populate('articleId');
     res.json(data)
   }
   catch (error) {
@@ -58,5 +59,6 @@ const updateComment = async (req, res) => {
     res.status(500).json({message: error})
   }
 }
+
 
 module.exports = { createComment, getComments, getCommentById, deleteComment, updateComment };

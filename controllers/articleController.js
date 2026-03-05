@@ -59,4 +59,16 @@ const updateArticle = async (req, res) => {
   }
 }
 
-module.exports = { createArticle, getArticles, getArticleById, deleteArticle, updateArticle };
+const addCommentToArticle = async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id);
+    article.comments.push(req.body.commentId);
+    const updatedArticle = await article.save();
+    res.json(updatedArticle);
+  }
+  catch (error) {
+    res.status(500).json({message: error})
+  }
+}
+
+module.exports = { createArticle, getArticles, getArticleById, deleteArticle, updateArticle, addCommentToArticle };
