@@ -3,7 +3,8 @@ const Article = require('../models/article.js');
 const createArticle = async (req, res) => {
   const data = new Article({
       header: req.body.header,
-      content: req.body.content
+      content: req.body.content,
+      author: req.body.authorId
   })
   try {
     const dataToSave = await data.save();
@@ -16,7 +17,7 @@ const createArticle = async (req, res) => {
 
 const getArticles = async (req, res) => {
   try {
-    const data = await Article.find();
+    const data = await Article.find().populate('author');
     res.json(data)
   }
   catch (error) {
@@ -26,7 +27,7 @@ const getArticles = async (req, res) => {
 
 const getArticleById = async (req, res) => {
   try {
-    const data = await Article.findById(req.params.id);
+    const data = await Article.findById(req.params.id).populate('author');
     res.json(data)
   }
   catch (error) {
