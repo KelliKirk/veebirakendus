@@ -71,4 +71,15 @@ const addCommentToArticle = async (req, res) => {
   }
 }
 
-module.exports = { createArticle, getArticles, getArticleById, deleteArticle, updateArticle, addCommentToArticle };
+const getArticleWithComments = async (req, res) => {
+  try {
+    const data = await Article.findById(req.params.id).populate('comments');
+    res.json(data)
+  }
+  catch (error) {
+    res.status(500).json({message: error})
+  }
+}
+
+module.exports = { createArticle, getArticles, getArticleById, deleteArticle, updateArticle, addCommentToArticle, getArticleWithComments };
+
